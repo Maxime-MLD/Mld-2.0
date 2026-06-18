@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" fill="none" role="img" aria-label="Avant / après une refonte de site">
+  <!-- AVANT : site daté -->
+  <g filter="url(#s3)">
+    <rect x="120" y="240" width="440" height="420" rx="16" fill="#EDEBE6"/>
+  </g>
+  <rect x="120" y="240" width="440" height="44" rx="16" fill="#DAD6CC"/>
+  <rect x="120" y="268" width="440" height="16" fill="#DAD6CC"/>
+  <rect x="152" y="312" width="240" height="20" rx="4" fill="#9a958a"/>
+  <rect x="152" y="348" width="376" height="10" rx="2" fill="#b4afa4"/>
+  <rect x="152" y="368" width="376" height="10" rx="2" fill="#b4afa4"/>
+  <rect x="152" y="388" width="300" height="10" rx="2" fill="#b4afa4"/>
+  <rect x="152" y="430" width="160" height="120" rx="4" fill="#c7c2b6"/>
+  <rect x="328" y="430" width="200" height="14" rx="2" fill="#b4afa4"/>
+  <rect x="328" y="456" width="200" height="14" rx="2" fill="#b4afa4"/>
+  <rect x="328" y="500" width="120" height="34" rx="4" fill="#9a958a" opacity="0.6"/>
+  <rect x="152" y="588" width="376" height="40" rx="4" fill="#d8d3c8"/>
+  <text x="340" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#060918" opacity="0.35">AVANT</text>
+
+  <!-- Flèche -->
+  <circle cx="600" cy="450" r="40" fill="#3B5BFF"/>
+  <path d="M584 450h32m0 0-12-12m12 12-12 12" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- APRÈS : version moderne -->
+  <g filter="url(#s3)">
+    <rect x="640" y="220" width="440" height="460" rx="22" fill="#ffffff"/>
+  </g>
+  <rect x="640" y="220" width="440" height="50" rx="22" fill="#F2F4FF"/>
+  <rect x="640" y="250" width="440" height="20" fill="#F2F4FF"/>
+  <circle cx="672" cy="245" r="6" fill="#060918" opacity="0.15"/>
+  <circle cx="692" cy="245" r="6" fill="#060918" opacity="0.15"/>
+  <circle cx="712" cy="245" r="6" fill="#060918" opacity="0.15"/>
+  <rect x="676" y="312" width="220" height="24" rx="8" fill="#060918"/>
+  <rect x="676" y="350" width="150" height="24" rx="8" fill="#060918" opacity="0.5"/>
+  <rect x="676" y="404" width="368" height="12" rx="6" fill="#060918" opacity="0.18"/>
+  <rect x="676" y="430" width="300" height="12" rx="6" fill="#060918" opacity="0.18"/>
+  <rect x="676" y="474" width="130" height="40" rx="20" fill="#3B5BFF"/>
+  <rect x="676" y="556" width="180" height="84" rx="14" fill="#3B5BFF" opacity="0.12"/>
+  <rect x="876" y="556" width="168" height="84" rx="14" fill="#EBEEFF"/>
+  <text x="860" y="700" text-anchor="middle" font-family="Inter, sans-serif" font-size="26" font-weight="700" fill="#3B5BFF">APRÈS</text>
+  <defs>
+    <filter id="s3" x="80" y="180" width="1040" height="560" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="26" flood-color="#060918" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+</svg>

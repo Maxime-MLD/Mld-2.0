@@ -1,0 +1,93 @@
+---
+/*
+  Faq — désamorce les objections fréquentes avant le CTA final.
+  Réponses réelles et rassurantes adaptées à l'offre MLD.
+  Utilise <details>/<summary> : accessible et fonctionnel SANS JS (bon pour le SEO).
+  Animations : voir bloc // === FAQ === dans Animation.jsx.
+*/
+
+const faq = [
+  {
+    q: 'Quels sont les délais de réalisation ?',
+    a: 'Pour un site vitrine mono-page, comptez en général 1 à 2 semaines une fois les contenus réunis. Pour un site multi-pages ou une refonte, plutôt 3 à 5 semaines. Je vous donne un délai précis dès le devis, et je m\'y tiens.',
+  },
+  {
+    q: 'Combien ça coûte ? Comment se passe le devis ?',
+    a: 'Chaque projet est différent, donc je travaille sur devis — sans surprise ni frais cachés. On échange d\'abord sur vos besoins, puis je vous envoie une proposition claire et détaillée. Le devis est gratuit et sans engagement.',
+  },
+  {
+    q: 'Et l\'hébergement et le nom de domaine ?',
+    a: 'Je peux tout gérer pour vous : nom de domaine, hébergement, mise en ligne et sécurité. Vous n\'avez rien à configurer. Si vous avez déjà un hébergeur, je m\'adapte aussi à votre installation existante.',
+  },
+  {
+    q: 'À qui appartient le site une fois terminé ?',
+    a: 'Le site vous appartient, à 100 %. Le nom de domaine est enregistré à votre nom et vous restez propriétaire de vos contenus.',
+  },
+  {
+    q: 'Que se passe-t-il après la mise en ligne ?',
+    a: 'Je propose une formule de maintenance pour garder votre site à jour, sécurisé et sauvegardé. Vous avez une modification à faire ou une question ? Vous me contactez directement — un seul interlocuteur, pas de hotline.',
+  },
+  {
+    q: 'Mon site sera-t-il visible sur Google ?',
+    a: 'Oui. Chaque site est construit avec les bonnes pratiques de référencement (structure, vitesse, mobile, balises, données locales pour Roanne et la Loire et cela peut importe votre ville) afin de vous donner les meilleures chances d\'être trouvé par vos futurs clients.',
+  },
+    {
+    q: 'Travaillez-vous partout en France ?',
+    a: 'Je suis basé à Roanne et j\'accompagne en priorité les entreprises de la Loire et des environs, en privilégiant la proximité. Mais je travaille aussi à distance, partout en France : quelques échanges téléphoniques ou par mail suffisent pour mener votre projet à bien.',
+  },
+];
+
+// Données structurées FAQPage (rich results Google) — générées depuis le même tableau.
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: { '@type': 'Answer', text: item.a },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+<section id="faq" aria-labelledby="faq-title" class="bg-canvas">
+  <div class="container-mld py-22 sm:py-30">
+    <div class="mx-auto max-w-2xl text-center">
+      <p
+        data-anim="faq-eyebrow"
+        class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+      >
+        FAQ
+      </p>
+      <h2
+        id="faq-title"
+        data-anim="faq-title"
+        class="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+      >
+        Vos questions, mes réponses
+      </h2>
+    </div>
+
+    <div class="mx-auto mt-16 max-w-3xl divide-y divide-ink/10 border-y border-ink/10">
+      {
+        faq.map((item) => (
+          <details data-anim="faq-item" class="group py-5">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-heading text-lg font-bold text-ink">
+              {item.q}
+              <span
+                class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform duration-300 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 4v12M4 10h12" stroke-linecap="round" />
+                </svg>
+              </span>
+            </summary>
+            <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

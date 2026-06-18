@@ -1,0 +1,251 @@
+---
+/*
+  CtaFinal — section de contact (fond sombre #060918) : coordonnées + formulaire
+  Web3Forms (envoi en JS, sans rechargement). Porte l'ancre #contact.
+  Animations : voir bloc // === CTA FINAL === dans Animation.jsx.
+  Fallback : tout est visible sans JS (le formulaire reste affiché ; seul l'envoi
+  AJAX nécessite le JS — un fallback action est prévu sur le <form>).
+*/
+
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+const contact = {
+  phone: '06 62 59 97 71',
+  email: 'contact@mld-dev.com',
+};
+---
+
+<section id="contact" aria-labelledby="cta-title" class="bg-canvas">
+  <div class="container-mld pb-22 sm:pb-30">
+    <div
+      data-anim="cta-box"
+      class="relative overflow-hidden rounded-3xl bg-ink px-8 py-16 sm:px-12 sm:py-20"
+    >
+      <!-- Halo d'accent décoratif -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/20 blur-3xl"
+      >
+      </div>
+
+      <div class="relative grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+        <!-- Colonne gauche : titre + sous-texte + coordonnées -->
+        <div>
+          <h2
+            id="cta-title"
+            data-anim="contact-intro"
+            class="font-heading text-3xl font-extrabold leading-tight tracking-tight text-canvas sm:text-4xl lg:text-5xl"
+          >
+            Un projet en tête&nbsp;?<br />parlons-en.
+          </h2>
+          <p
+            data-anim="contact-intro"
+            class="mt-6 max-w-md font-sans text-lg leading-relaxed text-canvas/70"
+          >
+            Que vous partiez de zéro ou que vous vouliez moderniser votre site
+            actuel, échangeons sur votre projet. Devis gratuit et sans engagement.
+          </p>
+
+          <!-- Coordonnées -->
+          <div data-anim="contact-info" class="mt-10">
+            <Image src={logo} alt="Logo MLD — agence web" format="webp" class="h-12 w-auto brightness-0 invert" />
+
+            <ul class="mt-6 space-y-4">
+              <li class="flex items-center gap-3 font-sans text-base text-canvas/80">
+                <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="m3 7 9 6 9-6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                {contact.email}
+              </li>
+              <li class="flex items-center gap-3 font-sans text-base text-canvas/80">
+                <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+                {contact.phone}
+              </li>
+              <li class="flex items-center gap-3 font-sans text-base text-canvas/80">
+                <span class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-accent/15 text-accent">
+                  <svg class="h-[18px] w-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z" stroke-linejoin="round" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                </span>
+                Roanne (42), Loire
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Colonne droite : formulaire -->
+        <div data-anim="contact-form">
+          <form
+            id="contact-form"
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            novalidate
+            class="space-y-6"
+          >
+            <!-- Web3Forms : clé d'accès (à remplacer) -->
+            <input type="hidden" name="access_key" value="ebae498f-43fc-44c7-8eba-7a8b00d55fe3" />
+            <input type="hidden" name="subject" value="Nouvelle demande depuis mld-dev.com" />
+            <input type="hidden" name="from_name" value="Formulaire MLD" />
+
+            <!-- Honeypot anti-spam : masqué aux humains et aux lecteurs d'écran -->
+            <input
+              type="checkbox"
+              name="botcheck"
+              class="hidden"
+              style="display:none"
+              tabindex="-1"
+              autocomplete="off"
+              aria-hidden="true"
+            />
+
+            <div>
+              <label for="cf-name" class="block font-sans text-sm font-medium text-canvas/80">
+                Nom
+              </label>
+              <input
+                id="cf-name"
+                name="name"
+                type="text"
+                required
+                autocomplete="name"
+                class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-canvas placeholder:text-canvas/30 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+                placeholder="Votre nom"
+              />
+            </div>
+
+            <div>
+              <label for="cf-email" class="block font-sans text-sm font-medium text-canvas/80">
+                Email
+              </label>
+              <input
+                id="cf-email"
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-canvas placeholder:text-canvas/30 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+                placeholder="vous@exemple.com"
+              />
+            </div>
+
+            <div>
+              <label for="cf-type" class="block font-sans text-sm font-medium text-canvas/80">
+                Type de demande
+              </label>
+              <select
+                id="cf-type"
+                name="type"
+                required
+                class="mt-2 w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-canvas transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+              >
+                <option class="text-ink/60" value="" disabled selected hidden>Quel type de site&nbsp;?</option>
+                <option class="text-ink/60" value="Site mono-page">Site mono-page</option>
+                <option class="text-ink/60" value="Site multi-pages">Site multi-pages</option>
+                <option class="text-ink/60" value="Refonte">Refonte</option>
+                <option class="text-ink/60" value="Autre / je ne sais pas encore">Autre / je ne sais pas encore</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="cf-message" class="block font-sans text-sm font-medium text-canvas/80">
+                Message
+              </label>
+              <textarea
+                id="cf-message"
+                name="message"
+                required
+                rows="4"
+                class="mt-2 w-full resize-y rounded-xl border border-white/10 bg-white/5 px-4 py-3 font-sans text-base text-canvas placeholder:text-canvas/30 transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/40"
+                placeholder="Parlez-moi de votre projet…"
+              ></textarea>
+            </div>
+
+            <button id="cf-submit" type="submit" class="btn-primary w-full">
+              Envoyer ma demande
+            </button>
+
+            <!-- Message de retour -->
+            <p
+              id="cf-result"
+              role="status"
+              aria-live="polite"
+              class="hidden font-sans text-sm"
+            >
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement | null;
+  const result = document.getElementById('cf-result');
+
+  if (form && submitBtn && result) {
+    const defaultLabel = submitBtn.textContent;
+
+    const showResult = (msg: string, ok: boolean) => {
+      result.textContent = msg;
+      result.classList.remove('hidden');
+      // Vert/rouge sobres, lisibles sur fond sombre.
+      result.style.color = ok ? '#4ADE80' : '#F87171';
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Validation native (champs requis + format email + select non vide).
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi en cours…';
+      result.classList.add('hidden');
+
+      try {
+        const data = Object.fromEntries(new FormData(form));
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await response.json();
+
+        if (response.ok && json.success) {
+          showResult(
+            'Merci, votre message a bien été envoyé. Je vous réponds sous 24 h.',
+            true
+          );
+          form.reset();
+        } else {
+          showResult(
+            'Une erreur est survenue, réessayez ou écrivez-moi directement par email.',
+            false
+          );
+        }
+      } catch {
+        showResult(
+          'Une erreur est survenue, réessayez ou écrivez-moi directement par email.',
+          false
+        );
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = defaultLabel;
+      }
+    });
+  }
+</script>

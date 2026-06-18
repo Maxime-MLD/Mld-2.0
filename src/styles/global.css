@@ -1,0 +1,67 @@
+/* Polices Google : Manrope (titres) + Inter (textes) */
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+
+  /* Respect des préférences d'accessibilité : pas d'animation si demandé */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Conteneur centré standard, marges latérales mobile-first */
+  .container-mld {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-10;
+  }
+
+  /* Bouton CTA principal */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-accent px-7 py-3
+           font-sans text-base font-semibold text-white transition-all duration-300
+           hover:-translate-y-0.5 hover:shadow-lg hover:shadow-accent/30
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2
+           focus-visible:outline-accent;
+  }
+
+  /* Bouton secondaire */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-full border border-ink/15
+           bg-transparent px-7 py-3.5 font-sans text-base font-semibold text-ink
+           transition-all duration-300 hover:border-ink/40;
+  }
+}
+
+/*
+  FALLBACK ANIMATIONS — voir Animation.jsx
+  Les éléments [data-anim] sont visibles par défaut (aucun opacity:0 en CSS pur).
+  GSAP applique l'état initial uniquement si le JS s'exécute, via la classe
+  ajoutée plus bas. Cela garantit page visible + SEO si le JS ne charge pas.
+*/
+.js-anim [data-anim] {
+  opacity: 0;
+}

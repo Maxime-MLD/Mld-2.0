@@ -1,0 +1,372 @@
+---
+/*
+  Services — blocs alternés texte / image façon page produit Coinbase.
+  Desktop : 2 colonnes, sens alterné à chaque bloc. Mobile/tablette : empilé
+  (image puis texte). Cadres d'image à fond alterné (clair / foncé #060918).
+  Images via <Image /> astro:assets. Charte : accent #3B5BFF uniquement.
+  Animations : voir bloc // === SERVICES === dans Animation.jsx.
+*/
+import { Image } from 'astro:assets';
+import mockupMonopage from '../assets/service_dentiste.png';
+// Éventail multi-pages : 3 captures d'un même site de démo (maçon).
+import maconAccueil from '../assets/service_macon.png';
+import maconServices from '../assets/service_macon2.png';
+import maconContact from '../assets/service_macon3.png';
+// Avant / après refonte : même site (Menuiserie Durand), 2 versions.
+// (Renomme tes fichiers en refonte-avant/apres.webp puis change ces 2 lignes
+//  si tu veux les utiliser ; Astro compresse en WebP dans tous les cas.)
+import refonteAvant from '../assets/hero_2000.png';
+import refonteApres from '../assets/hero_2026.png';
+
+const services = [
+  {
+    label: 'Site mono-page',
+    title: 'Votre savoir-faire en ligne, à moindre coût',
+    desc: 'Une page unique, claire et efficace, pour présenter votre activité et trouver de nouveau clients.',
+    benefits: ['Budget accessible', 'Mise en ligne rapide', 'Idéal pour démarrer'],
+    image: mockupMonopage,
+    alt: 'Aperçu d\'un site vitrine mono-page',
+    frame: 'light',
+  },
+  {
+    label: 'Site multi-pages',
+    title: 'Un site sur-mesure qui évolue avec vous',
+    desc: 'Plusieurs pages structurées (services, réalisations, à propos, contact…) pour les entreprises qui ont plus à raconter.',
+    benefits: ['Plusieurs pages selon vos besoins', 'Structure adaptée à votre activité', 'Évolutif dans le temps'],
+    // Éventail : ordre gauche → centre → droite (le centre passe au-dessus).
+    fan: [
+      { src: maconServices, alt: 'Page services du site d\'un maçon créé par MLD' },
+      { src: maconAccueil, alt: 'Page d\'accueil du site d\'un maçon créé par MLD' },
+      { src: maconContact, alt: 'Page contact du site d\'un maçon créé par MLD' },
+    ],
+    frame: 'dark',
+  },
+  {
+    label: 'Refonte de site',
+    title: 'Donnez un coup de neuf à votre image',
+    desc: 'Je modernise votre site vieillissant pour qu\'il inspire à nouveau confiance et travaille vraiment pour vous.',
+    benefits: ['Nouveau design actuel', 'Meilleures performances', 'Meilleur référencement'],
+    beforeAfter: {
+      avant: { src: refonteAvant, alt: 'Site d\'une menuiserie avant refonte' },
+      apres: { src: refonteApres, alt: 'Le même site de menuiserie après refonte par MLD' },
+    },
+    frame: 'light',
+  },
+  {
+    label: 'Maintenance, hébergement & déploiement',
+    title: 'Je m\'occupe de tout, de A à Z',
+    desc: 'Une fois le site livré, c\'est vous qui choisissez votre niveau d\'accompagnement :',
+    benefits: ['Autonomie : Je vous forme à modifier vos contenus (textes, photos) pour être 100 % indépendant.', 'Pack Sérénité : Déléguez-moi la technique ! Je gère l\'intégralité des modifications pour vous.', 'L\'hébergement et le déploiement est toujours fait pas mes soins.'],
+    dashboard: true,
+    frame: 'dark',
+  },
+];
+---
+
+<section id="services" aria-labelledby="services-title" class="bg-canvas">
+  <div class="container-mld py-22 sm:py-30">
+    <!-- En-tête de section -->
+    <div class="max-w-2xl">
+      <p
+        data-anim="services-eyebrow"
+        class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+      >
+        Mes services
+      </p>
+      <h2
+        id="services-title"
+        data-anim="services-title"
+        class="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+      >
+        La solution adaptée à<br>
+        votre projet
+      </h2>
+      <p
+        data-anim="services-subtitle"
+        class="mt-6 font-sans text-lg leading-relaxed text-ink/70"
+      >
+        Que vous partiez de zéro ou que vous vouliez tout refaire, je vous
+        accompagne <span class="font-semibold text-ink">de A à Z, avec un seul
+        interlocuteur</span>.
+      </p>
+    </div>
+
+    <!-- Blocs alternés -->
+    <div class="mt-20 flex flex-col gap-20 sm:gap-28">
+      {
+        services.map((service, i) => {
+          const reverse = i % 2 === 1; // sens alterné sur desktop
+          return (
+            <div
+              data-service-block
+              class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+            >
+              {/* Image */}
+              <div
+                data-anim="service-media"
+                class={`flex items-center justify-center rounded-[32px] p-8 shadow-[0_12px_32px_-8px_rgba(6,9,24,0.14)] sm:p-12 ${
+                  service.frame === 'dark' ? 'bg-ink' : 'bg-accent/10'
+                } ${reverse ? 'lg:order-2' : 'lg:order-1'}`}
+              >
+                {service.fan ? (
+                  <div data-fan class="relative mx-auto aspect-[4/3] w-full max-w-[300px] sm:max-w-[360px]">
+                    {service.fan.map((page, fi) => (
+                      <Image
+                        src={page.src}
+                        alt={page.alt}
+                        width={1200}
+                        height={900}
+                        data-fan-card
+                        class={`absolute inset-0 h-full w-full rounded-xl object-cover object-top shadow-xl shadow-ink/30 ring-1 ring-white/10 ${
+                          fi === 0
+                            ? 'z-10 -translate-x-[8%] -rotate-3 sm:-translate-x-[15%] sm:-rotate-6'
+                            : fi === 1
+                              ? 'z-20 sm:-translate-y-[4%]'
+                              : 'z-10 translate-x-[8%] rotate-3 sm:translate-x-[15%] sm:rotate-6'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                ) : service.dashboard ? (
+                  <div class="w-full sm:aspect-[16/10]">
+                    <div class="flex h-full w-full flex-col rounded-2xl bg-white p-4 shadow-xl shadow-ink/20 sm:p-5">
+                      {/* En-tête : nom du site + statut en ligne */}
+                      <div class="flex items-center justify-between gap-3 border-b border-ink/10 pb-2.5">
+                        <div class="flex items-center gap-2">
+                          <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="h-4 w-4" aria-hidden="true">
+                              <circle cx="12" cy="12" r="9" />
+                              <path d="M3 12h18" />
+                              <path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18" />
+                            </svg>
+                          </span>
+                          <span class="font-heading text-sm font-bold text-ink">dentiste.fr</span>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-[#16A34A]/10 px-2.5 py-1 font-sans text-[11px] font-semibold text-[#16A34A]">
+                          <span class="h-1.5 w-1.5 rounded-full bg-[#22C55E]"></span>
+                          En ligne
+                        </span>
+                      </div>
+
+                      {/* Indicateurs de santé — grille 2×2 */}
+                      <div class="mt-3 grid flex-1 grid-cols-2 gap-2.5">
+                        {/* Disponibilité */}
+                        <div class="flex flex-col justify-between rounded-lg bg-canvas/70 p-2.5">
+                          <div class="flex items-center justify-between gap-2">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="h-4 w-4" aria-hidden="true">
+                                <path d="M3 12h4l3 8 4-16 3 8h4" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                            </span>
+                            <span class="font-heading text-sm font-bold text-ink">99,9&nbsp;%</span>
+                          </div>
+                          <p class="mt-1.5 font-heading text-xs font-bold leading-tight text-ink">Site en ligne</p>
+                        </div>
+
+                        {/* Sécurité */}
+                        <div class="flex flex-col justify-between rounded-lg bg-canvas/70 p-2.5">
+                          <div class="flex items-center justify-between gap-2">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="h-4 w-4" aria-hidden="true">
+                                <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke-linejoin="round" />
+                                <path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round" />
+                              </svg>
+                            </span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.25" class="h-4 w-4" aria-hidden="true">
+                              <path d="m5 12 5 5L20 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                          </div>
+                          <p class="mt-1.5 font-heading text-xs font-bold leading-tight text-ink">Sécurisé · SSL</p>
+                        </div>
+
+                        {/* Sauvegardes */}
+                        <div class="flex flex-col justify-between rounded-lg bg-canvas/70 p-2.5">
+                          <div class="flex items-center justify-between gap-2">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="h-4 w-4" aria-hidden="true">
+                                <ellipse cx="12" cy="6" rx="7" ry="3" />
+                                <path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" />
+                                <path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3" />
+                              </svg>
+                            </span>
+                            <span class="font-sans text-[11px] font-semibold text-[#16A34A]">À jour</span>
+                          </div>
+                          <p class="mt-1.5 font-heading text-xs font-bold leading-tight text-ink">Sauvegardes</p>
+                        </div>
+
+                        {/* Performance */}
+                        <div class="flex flex-col justify-between rounded-lg bg-canvas/70 p-2.5">
+                          <div class="flex items-center justify-between gap-2">
+                            <span class="flex h-7 w-7 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="h-4 w-4" aria-hidden="true">
+                                <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8z" stroke-linejoin="round" />
+                              </svg>
+                            </span>
+                            <span class="font-heading text-sm font-bold text-accent">98<span class="text-ink/40">/100</span></span>
+                          </div>
+                          <div class="mt-1.5">
+                            <p class="font-heading text-xs font-bold leading-tight text-ink">Performance</p>
+                            <div class="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-ink/10">
+                              <div class="h-full w-[98%] rounded-full bg-accent"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : service.beforeAfter ? (
+                  <div class="w-full">
+                    {/*
+                      Slider avant/après. Les 2 images se superposent (object-cover,
+                      même cadrage) ; l'AVANT est clippée selon --p (0–100 %).
+                      Drag souris + tactile + clavier (poignée role=slider).
+                      Fallback sans JS : --p=50 → les deux moitiés restent visibles.
+                    */}
+                    <div
+                      data-ba-slider
+                      style="--p:50"
+                      class="relative aspect-[16/10] w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-xl shadow-md shadow-ink/10 ring-1 ring-ink/5"
+                    >
+                      {/* APRÈS — image de base (à droite) */}
+                      <Image
+                        src={service.beforeAfter.apres.src}
+                        alt={service.beforeAfter.apres.alt}
+                        class="pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-center"
+                      />
+                      {/* AVANT — superposée et clippée (à gauche) */}
+                      <Image
+                        src={service.beforeAfter.avant.src}
+                        alt={service.beforeAfter.avant.alt}
+                        class="pointer-events-none absolute inset-0 h-full w-full select-none object-cover object-center"
+                        style="clip-path: inset(0 calc((100 - var(--p)) * 1%) 0 0)"
+                      />
+
+                      {/* Labels */}
+                      <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-ink/75 px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+                        Avant
+                      </span>
+                      <span class="pointer-events-none absolute right-3 top-3 rounded-full bg-accent px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+                        Après
+                      </span>
+
+                      {/* Ligne + poignée */}
+                      <div
+                        class="pointer-events-none absolute inset-y-0 z-10 w-0.5 -translate-x-1/2 bg-white/90"
+                        style="left: calc(var(--p) * 1%)"
+                      >
+                      </div>
+                      <button
+                        type="button"
+                        data-ba-handle
+                        role="slider"
+                        aria-label="Comparer avant et après la refonte"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="50"
+                        class="absolute top-1/2 z-20 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink shadow-lg ring-1 ring-ink/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                        style="left: calc(var(--p) * 1%)"
+                      >
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                          <path d="m9 7-5 5 5 5M15 7l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                ) : service.image ? (
+                  <Image
+                    src={service.image}
+                    alt={service.alt ?? ''}
+                    width={1200}
+                    height={900}
+                    class="w-full rounded-xl"
+                  />
+                ) : null}
+              </div>
+
+              {/* Texte */}
+              <div
+                data-anim="service-text"
+                class={`${reverse ? 'lg:order-1' : 'lg:order-2'}`}
+              >
+                <p class="font-sans text-sm font-semibold uppercase tracking-widest text-accent">
+                  {service.label}
+                </p>
+                <h3 class="mt-4 font-heading text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
+                  {service.title}
+                </h3>
+                <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+                  {service.desc}
+                </p>
+                <ul class="mt-8 space-y-4">
+                  {service.benefits.map((benefit) => (
+                    <li class="flex items-center gap-3 font-sans text-base text-ink/80">
+                      <span class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+                        <svg class="h-4 w-4 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path
+                            fill-rule="evenodd"
+                            d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.1 6.8-6.8a1 1 0 0 1 1.4 0Z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                      </span>
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <!-- Argument transversal + CTA -->
+    <div
+      data-anim="services-cta"
+      class="mt-24 flex flex-col items-center justify-between gap-6 rounded-2xl bg-ink px-8 py-10 text-center sm:flex-row sm:text-left"
+    >
+      <p class="max-w-xl font-heading text-xl font-bold text-canvas">
+        Un seul interlocuteur, du premier échange à la mise en ligne.
+        <span class="text-accent"> Tarif sur devis, sans engagement.</span>
+      </p>
+      <a href="#contact" class="btn-primary flex-shrink-0">Demander un devis</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Slider avant/après : drag souris + tactile (Pointer Events) + clavier.
+  document.querySelectorAll<HTMLElement>('[data-ba-slider]').forEach((slider) => {
+    const handle = slider.querySelector<HTMLElement>('[data-ba-handle]');
+    let dragging = false;
+
+    const setP = (p: number) => {
+      const clamped = Math.max(0, Math.min(100, p));
+      slider.style.setProperty('--p', String(clamped));
+      handle?.setAttribute('aria-valuenow', String(Math.round(clamped)));
+    };
+
+    const pFromEvent = (e: PointerEvent) => {
+      const rect = slider.getBoundingClientRect();
+      return ((e.clientX - rect.left) / rect.width) * 100;
+    };
+
+    slider.addEventListener('pointerdown', (e) => {
+      dragging = true;
+      slider.setPointerCapture(e.pointerId);
+      setP(pFromEvent(e));
+    });
+    slider.addEventListener('pointermove', (e) => {
+      if (dragging) setP(pFromEvent(e));
+    });
+    const stop = () => { dragging = false; };
+    slider.addEventListener('pointerup', stop);
+    slider.addEventListener('pointercancel', stop);
+
+    handle?.addEventListener('keydown', (e) => {
+      const cur = parseFloat(slider.style.getPropertyValue('--p')) || 50;
+      if (e.key === 'ArrowLeft') { setP(cur - 2); e.preventDefault(); }
+      if (e.key === 'ArrowRight') { setP(cur + 2); e.preventDefault(); }
+    });
+  });
+</script>

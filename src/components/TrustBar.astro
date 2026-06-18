@@ -1,0 +1,49 @@
+---
+/*
+  TrustBar — bande de chiffres-clés sous le hero (remplace l'ancienne bande de logos).
+  Effet compteur au scroll géré dans Animation.jsx (bloc // === CHIFFRES-CLÉS ===).
+  Fallback SEO/JS : les valeurs finales sont écrites en dur dans le HTML ; le JS
+  ne fait que partir de 0 (ou d'une lettre) pour animer. Sans JS → valeurs finales.
+
+  Marqueurs d'animation :
+   - data-count + data-to : compteur numérique (0 → valeur)
+   - data-alpha + data-to + data-dir : compteur alphabétique (A↔Z)
+   - data-anim="stat-item" : fondu/slide d'apparition (cohérent avec le reste)
+*/
+
+const stats = [
+  { kind: 'num', prefix: '+', value: 20, suffix: '', label: 'Sites créés' },
+  { kind: 'num', prefix: '', value: 24, suffix: 'h', label: 'Délai de réponse maximum' },
+  { kind: 'num', prefix: '', value: 100, suffix: '%', label: 'Propriétaire de votre site' },
+  { kind: 'alpha', label: 'Je m\'occupe de tout' },
+];
+---
+
+<section aria-label="MLD en quelques chiffres" class="border-y border-ink/5 bg-canvas">
+  <div
+    data-keyfacts
+    class="container-mld grid grid-cols-2 gap-x-8 gap-y-10 py-12 sm:py-16 lg:grid-cols-4 lg:gap-0"
+  >
+    {
+      stats.map((stat, i) => (
+        <div
+          data-anim="stat-item"
+          class={`text-center lg:px-6 ${
+            i > 0 ? 'lg:border-l lg:border-ink/10' : ''
+          }`}
+        >
+          <p class="font-heading text-4xl font-extrabold tracking-tight text-accent sm:text-5xl">
+            {stat.kind === 'num' ? (
+              <span>{stat.prefix}<span data-count data-to={stat.value}>{stat.value}</span>{stat.suffix}</span>
+            ) : (
+              <span><span data-alpha data-to="A" data-dir="down">A</span><span class="mx-1 text-ink/40 text-3xl">à</span><span data-alpha data-to="Z" data-dir="up">Z</span></span>
+            )}
+          </p>
+          <p class="mx-auto mt-3 max-w-[180px] font-sans text-sm leading-relaxed text-ink/60">
+            {stat.label}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -1,0 +1,134 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Animation from '../animations/Animation.jsx';
+
+/*
+  Layout principal — porte tout le <head> SEO, le JSON-LD LocalBusiness,
+  le montage unique de Animation.jsx, et l'ossature sémantique de la page.
+*/
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+// === SEO : valeurs uniques par défaut (mot-clé principal + localité) ===
+const {
+  // <title> : 60 caractères max
+  title = 'Création site internet Roanne | Agence web MLD',
+  // <meta description> : 150-160 caractères
+  description = 'MLD, agence web à Roanne (Loire). Création de sites vitrine modernes et refonte de sites anciens pour gagner en visibilité en ligne et trouver des clients.',
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og-image.jpg', Astro.site).href; // [À FOURNIR : image OG 1200x630]
+
+// === Coordonnées MLD (placeholders à compléter) ===
+const business = {
+  name: 'MLD',
+  legalName: 'MLD — [PRÉNOM NOM]', // EI : nom de l'entrepreneur individuel
+  phone: '+33662599771',
+  email: 'contact@mld-dev.com',
+  street: '41 chemin de Villevert',
+  postalCode: '42720',
+  city: 'Vougy',
+  region: 'Loire',
+  country: 'FR',
+};
+
+// === Données structurées Schema.org LocalBusiness (JSON-LD) ===
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${Astro.site}#business`,
+  name: business.name,
+  legalName: business.legalName,
+  url: Astro.site?.href,
+  image: ogImage,
+  description,
+  telephone: business.phone,
+  email: business.email,
+  priceRange: '€€',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: business.street,
+    postalCode: business.postalCode,
+    addressLocality: business.city,
+    addressRegion: business.region,
+    addressCountry: business.country,
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Roanne' },
+    { '@type': 'AdministrativeArea', name: 'Loire' },
+  ],
+  // Horaires — à ajuster : [HORAIRES]
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '18:00',
+    },
+  ],
+  knowsAbout: [
+    'Création site internet',
+    'Site vitrine',
+    'Refonte de site web',
+    'Référencement local',
+  ],
+};
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO primaire -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="MLD" />
+    <meta name="geo.region" content="FR-42" />
+    <meta name="geo.placename" content="Roanne" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="MLD" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Préconnexion polices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Données structurées LocalBusiness -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+
+  <body>
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Animations GSAP — montées une seule fois pour toute la page -->
+    <Animation client:load />
+  </body>
+</html>

@@ -1,0 +1,84 @@
+---
+/*
+  Footer — navigation, contact, mentions légales.
+  Coordonnées en placeholders à compléter.
+*/
+
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#a-propos', label: 'À propos' },
+  { href: '#realisations', label: 'Réalisations' },
+  { href: '#process', label: 'Méthode' },
+  { href: '#faq', label: 'FAQ' },
+  { href: '#contact', label: 'Contact' },
+];
+
+const contact = {
+  phone: '06 62 59 97 71',
+  email: 'contact@mld-dev.com',
+  address: '41 chemin de Villevert, 42720 Vougy',
+};
+---
+
+<footer data-anim="footer" class="border-t border-ink/10 bg-canvas">
+  <div class="container-mld grid grid-cols-1 gap-12 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:py-22">
+    <!-- Marque -->
+    <div class="lg:col-span-1">
+      <a href="#hero" class="inline-flex items-center" aria-label="MLD — accueil">
+        <Image src={logo} alt="Logo MLD — agence web" format="webp" class="h-12 w-auto" />
+      </a>
+      <p class="mt-4 max-w-xs font-sans text-sm leading-relaxed text-ink/60">
+        Agence web à Roanne. Sites vitrine modernes et refonte de sites anciens
+        pour gagner en visibilité et trouver de nouveaux clients.
+      </p>
+    </div>
+
+    <!-- Navigation -->
+    <nav aria-label="Navigation pied de page">
+      <h3 class="font-heading text-sm font-bold uppercase tracking-wide text-ink/40">Navigation</h3>
+      <ul class="mt-4 space-y-3">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="font-sans text-sm text-ink/70 transition-colors hover:text-accent">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <!-- Contact -->
+    <div>
+      <h3 class="font-heading text-sm font-bold uppercase tracking-wide text-ink/40">Contact</h3>
+      <ul class="mt-4 space-y-3 font-sans text-sm text-ink/70">
+        <li><a href={`tel:${contact.phone.replace(/\s/g, '')}`} class="transition-colors hover:text-accent">{contact.phone}</a></li>
+        <li><a href={`mailto:${contact.email}`} class="transition-colors hover:text-accent">{contact.email}</a></li>
+        <li>Roanne &amp; Loire</li>
+      </ul>
+    </div>
+
+    <!-- Mentions légales -->
+    <div>
+      <h3 class="font-heading text-sm font-bold uppercase tracking-wide text-ink/40">Informations</h3>
+      <ul class="mt-4 space-y-3 font-sans text-sm text-ink/70">
+        <li><a href="/mentions-legales" class="transition-colors hover:text-accent">Mentions légales</a></li>
+        <li><a href="/politique-confidentialite" class="transition-colors hover:text-accent">Politique de confidentialité</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Bas de footer -->
+  <div class="border-t border-ink/10">
+    <div class="container-mld flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
+      <p class="font-sans text-xs text-ink/50">© {year} MLD. Tous droits réservés.</p>
+      <p class="font-sans text-xs text-ink/50">Création de sites internet à Roanne &amp; dans la Loire</p>
+    </div>
+  </div>
+</footer>

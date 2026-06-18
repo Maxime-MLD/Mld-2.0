@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+/*
+  Politique de confidentialité — page statique conforme RGPD.
+  Tous les [...] sont des placeholders à compléter.
+*/
+
+const title = 'Politique de confidentialité | MLD';
+const description = 'Politique de confidentialité de MLD, agence web à Roanne : données collectées, finalités, durée de conservation et vos droits RGPD.';
+---
+
+<Layout title={title} description={description}>
+  <article class="container-mld max-w-3xl py-22 sm:py-30">
+    <h1 class="font-heading text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">
+      Politique de confidentialité
+    </h1>
+    <p class="mt-4 font-sans text-sm text-ink/50">Dernière mise à jour : [DATE]</p>
+
+    <div class="mt-12 space-y-12">
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">1. Responsable du traitement</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Le responsable du traitement des données collectées sur ce site est
+          [PRÉNOM NOM] (MLD, entrepreneur individuel), 41 chemin de Villevert,
+          42720 Vougy. Pour toute question relative à vos données, vous pouvez
+          écrire à contact@mld-dev.com.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">2. Données collectées</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Je collecte uniquement les données que vous me transmettez volontairement
+          via le formulaire de contact ou par email&nbsp;: nom, adresse email,
+          numéro de téléphone et le contenu de votre message. Aucune donnée
+          sensible n'est demandée.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">3. Finalités</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Ces données sont utilisées exclusivement pour répondre à votre demande,
+          établir un devis et assurer le suivi de notre relation commerciale. Elles
+          ne sont jamais vendues ni cédées à des tiers à des fins commerciales.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">4. Durée de conservation</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Vos données sont conservées pour la durée nécessaire au traitement de
+          votre demande, puis 3 ans à compter de notre dernier contact, sauf
+          obligation légale de conservation plus longue.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">5. Cookies et mesure d'audience</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Ce site n'utilise pas de cookies de suivi ni d'outil de mesure
+          d'audience. Aucune donnée de navigation n'est collectée à des fins
+          publicitaires ou statistiques.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-heading text-xl font-bold text-ink">6. Vos droits</h2>
+        <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+          Conformément au RGPD, vous disposez d'un droit d'accès, de rectification,
+          d'effacement, de limitation, d'opposition et de portabilité de vos
+          données. Pour les exercer, contactez contact@mld-dev.com. Vous pouvez également
+          introduire une réclamation auprès de la CNIL (www.cnil.fr).
+        </p>
+      </section>
+    </div>
+
+    <p class="mt-16">
+      <a href="/" class="btn-ghost">← Retour à l'accueil</a>
+    </p>
+  </article>
+</Layout>

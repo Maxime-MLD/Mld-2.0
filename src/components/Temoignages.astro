@@ -1,0 +1,68 @@
+---
+/*
+  Temoignages — avis clients pour valider la décision.
+  Placeholders clairs : aucun faux client inventé, à remplacer par de vrais avis.
+  Animations : voir bloc // === TÉMOIGNAGES === dans Animation.jsx.
+*/
+
+const temoignages = [
+  {
+    quote: '[Témoignage 1 – ce que le client a aimé : résultat, accompagnement…]',
+    author: '[Nom – Entreprise, ville]',
+  },
+  {
+    quote: '[Témoignage 2 – ce que le client a aimé : résultat, accompagnement…]',
+    author: '[Nom – Entreprise, ville]',
+  },
+  {
+    quote: '[Témoignage 3 – ce que le client a aimé : résultat, accompagnement…]',
+    author: '[Nom – Entreprise, ville]',
+  },
+];
+---
+
+<section id="temoignages" aria-labelledby="temoignages-title" class="bg-canvas">
+  <div class="container-mld py-22 sm:py-30">
+    <div class="mx-auto max-w-2xl text-center">
+      <p
+        data-anim="testi-eyebrow"
+        class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+      >
+        Témoignages
+      </p>
+      <h2
+        id="temoignages-title"
+        data-anim="testi-title"
+        class="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+      >
+        Ce que mes clients en disent
+      </h2>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        temoignages.map((t) => (
+          <figure
+            data-anim="testi-card"
+            class="flex h-full flex-col rounded-2xl border border-ink/10 bg-white/60 p-8"
+          >
+            {/* Étoiles décoratives */}
+            <div class="flex gap-1 text-accent" aria-hidden="true">
+              {Array.from({ length: 5 }).map(() => (
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 15l-5.2 2.6 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+                </svg>
+              ))}
+            </div>
+            <blockquote class="mt-5 flex-1 font-sans text-base italic leading-relaxed text-ink/80">
+              {t.quote}
+            </blockquote>
+            <figcaption class="mt-6 font-sans text-sm font-semibold text-ink">
+              {t.author}
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

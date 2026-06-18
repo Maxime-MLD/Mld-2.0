@@ -1,0 +1,128 @@
+---
+/*
+  Navbar — menu burger sur mobile ET tablette, menu classique dès le desktop (lg).
+  Le HTML + classes Tailwind vivent ici. Le petit script de toggle du burger
+  est un comportement d'UI (pas une animation au scroll) : il reste dans ce fichier.
+*/
+
+import { Image } from 'astro:assets';
+import logoMld from '../assets/logo.png';
+
+const navLinks = [
+  { href: '#services', label: 'Services' },
+  { href: '#a-propos', label: 'À propos' },
+  { href: '#realisations', label: 'Réalisations' },
+  { href: '#process', label: 'Méthode' },
+  { href: '#faq', label: 'FAQ' },
+];
+---
+
+<header
+  data-anim="navbar"
+  class="fixed inset-x-0 top-0 z-50 border-b border-ink/5 bg-canvas/80 backdrop-blur-md"
+>
+  <nav
+    class="container-mld relative flex h-18 items-center justify-between"
+    aria-label="Navigation principale"
+  >
+    <!-- Logo à gauche -->
+    <a href="#hero" class="flex items-center" aria-label="MLD — accueil">
+      <Image src={logoMld} alt="Logo MLD — agence web" format="webp" class="h-24 w-auto" />
+    </a>
+
+    <!-- Liens au centre (desktop) — centrés en absolu sur la barre -->
+    <ul class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 whitespace-nowrap lg:flex">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="font-sans text-sm font-medium text-ink/70 transition-colors hover:text-ink"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- Côté droit : CTA (desktop) + burger (mobile/tablette) -->
+    <div class="flex items-center justify-self-end">
+      <a href="#contact" class="btn-primary hidden lg:inline-flex">Me contacter</a>
+
+      <button
+        id="burger-btn"
+        type="button"
+        class="inline-flex flex-col items-center justify-center gap-1.5 p-2 lg:hidden"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="block h-0.5 w-6 origin-center rounded-full bg-ink transition-all duration-300" data-bar="1"></span>
+        <span class="block h-0.5 w-6 rounded-full bg-ink transition-all duration-300" data-bar="2"></span>
+        <span class="block h-0.5 w-6 origin-center rounded-full bg-ink transition-all duration-300" data-bar="3"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Panneau menu mobile/tablette -->
+  <div
+    id="mobile-menu"
+    class="hidden border-t border-ink/5 bg-canvas lg:hidden"
+  >
+    <ul class="container-mld flex flex-col gap-2 py-6">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="block rounded-xl px-4 py-3 font-sans text-base font-medium text-ink/80 transition-colors hover:bg-ink/5 hover:text-ink"
+              data-mobile-link
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+      <li class="mt-2">
+        <a href="#contact" class="btn-primary w-full" data-mobile-link>Me contacter</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<!-- Décalage pour compenser le header fixe -->
+<div class="h-18" aria-hidden="true"></div>
+
+<script>
+  const burger = document.getElementById('burger-btn');
+  const menu = document.getElementById('mobile-menu');
+  const bars = burger?.querySelectorAll('[data-bar]');
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    burger?.setAttribute('aria-expanded', 'false');
+    burger?.setAttribute('aria-label', 'Ouvrir le menu');
+    bars?.forEach((b) => b.classList.remove('translate-y-2', '-translate-y-2', 'rotate-45', '-rotate-45', 'opacity-0'));
+  }
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    burger?.setAttribute('aria-expanded', 'true');
+    burger?.setAttribute('aria-label', 'Fermer le menu');
+    // Transformation en croix
+    bars?.[0]?.classList.add('translate-y-2', 'rotate-45');
+    bars?.[1]?.classList.add('opacity-0');
+    bars?.[2]?.classList.add('-translate-y-2', '-rotate-45');
+  }
+
+  burger?.addEventListener('click', () => {
+    const isOpen = burger.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  // Ferme le menu après clic sur un lien
+  document.querySelectorAll('[data-mobile-link]').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+</script>

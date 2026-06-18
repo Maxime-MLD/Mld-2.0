@@ -1,0 +1,90 @@
+---
+/*
+  About — qui je suis, mon approche, ma proximité (agence locale à Roanne).
+  Réassurance humaine : photo + texte côte à côte (empilé sur mobile).
+  Section volontairement sobre : l'humain est le point d'accroche, la couleur
+  reste discrète. Photo via <Image /> astro:assets (mêmes coins arrondis +
+  ombre douce que les autres images).
+  Animations : voir bloc // === À PROPOS === dans Animation.jsx.
+*/
+import { Image } from 'astro:assets';
+// Placeholder : remplacer par ta vraie photo [photo-de-moi.webp] — dimensions
+// idéales 1000 × 1250 px (portrait 4:5), cadrage buste, fond sobre.
+import photo from '../assets/about_max.png';
+
+const valeurs = [
+  {
+    title: 'Un interlocuteur local',
+    text: 'Basé à Roanne, je connais le tissu des entreprises de la Loire. On se rencontre, on échange simplement, sans jargon.',
+  },
+  {
+    title: 'Un accompagnement sur-mesure',
+    text: 'Mon travail commence par l\'écoute : je dois comprendre votre métier pour le mettre en valeur. C\'est la garantie d\'avoir un site sur-mesure, pensé pour vous.',
+  },
+  {
+    title: 'Un suivi dans la durée',
+    text: 'Je reste disponible après la mise en ligne. Une question, une évolution ? Vous me parlez directement, à moi.',
+  },
+];
+---
+
+<section id="a-propos" aria-labelledby="about-title" class="bg-white">
+  <div class="container-mld grid grid-cols-1 gap-8 py-22 sm:py-30 lg:grid-cols-2 lg:items-center lg:gap-x-20">
+    <!-- Titre — 1er sur mobile, colonne droite (haut) sur desktop -->
+    <div class="lg:col-start-2 lg:row-start-1">
+      <p
+        data-anim="about-eyebrow"
+        class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+      >
+        À propos
+      </p>
+      <h2
+        id="about-title"
+        data-anim="about-title"
+        class="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+      >
+        Un artisan du web, près de chez vous
+      </h2>
+    </div>
+
+    <!-- Photo — 2e sur mobile (sous le titre), colonne gauche sur desktop -->
+    <div
+      data-anim="about-photo"
+      class="mx-auto w-full max-w-md lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:max-w-none lg:self-center"
+    >
+      <Image
+        src={photo}
+        alt="Maxime, fondateur de MLD"
+        width={1000}
+        height={1250}
+        class="w-full rounded-[32px] shadow-xl shadow-ink/10"
+      />
+    </div>
+
+    <!-- Texte + valeurs + CTA — 3e sur mobile, colonne droite (bas) sur desktop -->
+    <div class="lg:col-start-2 lg:row-start-2">
+      <p
+        data-anim="about-text"
+        class="font-sans text-lg leading-relaxed text-ink/70"
+      >
+        Je suis Maxime, fondateur de MLD. J'aide les entreprises à se démarquer en ligne avec des sites modernes et performants. Chaque projet, je le prends en main personnellement, du premier café à la mise en ligne.
+      </p>
+
+      <!-- Valeurs (liste sobre) -->
+      <ul class="mt-8 space-y-5">
+        {
+          valeurs.map((v) => (
+            <li data-anim="about-value" class="border-l-2 border-accent/30 pl-5">
+              <h3 class="font-heading text-base font-bold text-ink">{v.title}</h3>
+              <p class="mt-1 font-sans text-base leading-relaxed text-ink/70">{v.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div data-anim="about-cta" class="mt-10">
+        <a href="#contact" class="btn-primary">Faisons connaissance</a>
+      </div>
+    </div>
+  </div>
+</section>

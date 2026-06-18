@@ -1,0 +1,113 @@
+---
+/*
+  Hero — Promesse claire en 3 secondes : ce que fait MLD et pour qui.
+  Un seul <h1> de toute la page. CTA principal « Me contacter ».
+  Layout 2 colonnes sur desktop (texte gauche / visuel droite), empilé en dessous.
+  Visuel : mockup affiché dans un MacBook Air gris sidéral (châssis en CSS,
+  écran = image swappable via <Image /> astro:assets).
+  Animations : voir bloc // === HERO === dans Animation.jsx.
+*/
+import { Image } from 'astro:assets';
+// Mockup MacBook avec la capture du site déjà intégrée (image réelle).
+import mockup from '../assets/hero_macbook.png';
+---
+
+<section
+  id="hero"
+  class="relative flex min-h-[calc(100svh-4.5rem)] items-center overflow-hidden"
+>
+  <!--
+    Fond décoratif — trame de points (CSS pur, aucune image) :
+    - #hero-dots : grille de points bleu accent en faible opacité, plus denses
+      vers le centre/droite (mask radial), animée par GSAP (dérive lente + légère
+      pulsation). Pas de data-anim → reste VISIBLE même sans JS (fallback propre).
+    - voile clair sous le texte (gauche) pour garantir la lisibilité.
+    Tout est pointer-events-none + -z-10 : jamais devant le contenu ni cliquable.
+  -->
+  <div
+    id="hero-dots"
+    aria-hidden="true"
+    class="pointer-events-none absolute -inset-6 -z-10 will-change-transform"
+    style="
+      background-image: radial-gradient(rgba(59,91,255,0.22) 1.5px, transparent 1.7px);
+      background-size: 26px 26px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 85%);
+      mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 85%);
+    "
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 -z-10"
+    style="background: radial-gradient(55% 65% at 22% 45%, rgba(235,238,255,0.85), rgba(235,238,255,0) 70%);"
+  >
+  </div>
+
+  <div class="container-mld py-16 sm:py-20">
+    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-12">
+      <!-- Colonne texte -->
+      <div class="text-center lg:text-left">
+        <p
+          data-anim="hero-eyebrow"
+          class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+        >
+          Agence web à Roanne &amp; dans la Loire
+        </p>
+
+        <h1
+          data-anim="hero-title"
+          class="mt-6 font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-6xl"
+        >
+          Plus de visibilité. Plus de clients
+        </h1>
+
+        <p
+          data-anim="hero-subtitle"
+          class="mx-auto mt-6 max-w-xl font-sans text-lg leading-relaxed text-ink/70 lg:mx-0"
+        >
+          Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire la visibilité qu'elles méritent.
+        </p>
+
+        <div
+          data-anim="hero-cta"
+          class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
+        >
+          <a href="#contact" class="btn-primary">Me contacter</a>
+          <a href="#realisations" class="btn-ghost">Voir mes réalisations</a>
+        </div>
+      </div>
+
+      <!-- Colonne visuel : mockup MacBook (image réelle) -->
+      <div data-anim="hero-visual" class="relative mx-auto w-full max-w-xl lg:max-w-none">
+        <Image
+          src={mockup}
+          alt="Site vitrine créé par MLD affiché sur un MacBook"
+          loading="eager"
+          class="macbook-shadow mx-auto block h-auto w-full max-w-[680px] lg:max-w-none lg:w-[122%]"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /*
+    Ombre portée du mockup MacBook — double drop-shadow (épouse la forme détourée
+    du PNG) : une ombre proche plus nette + une lointaine très diffuse, teintées
+    en #060918 (06,09,24) à faible opacité pour s'intégrer au fond #EBEEFF.
+    Réduite sur mobile pour rester naturelle. N'affecte que cette image.
+  */
+  .macbook-shadow {
+    filter:
+      drop-shadow(0 10px 20px rgba(6, 9, 24, 0.16))
+      drop-shadow(0 36px 60px rgba(6, 9, 24, 0.26));
+  }
+
+  @media (max-width: 640px) {
+    .macbook-shadow {
+      filter:
+        drop-shadow(0 6px 12px rgba(6, 9, 24, 0.14))
+        drop-shadow(0 20px 36px rgba(6, 9, 24, 0.16));
+    }
+  }
+</style>

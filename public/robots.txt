@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap généré automatiquement par @astrojs/sitemap au build
+Sitemap: https://www.mld-dev.com/sitemap-index.xml

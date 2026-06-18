@@ -1,0 +1,110 @@
+---
+/*
+  Process — « Comment je travaille » en timeline.
+  Desktop : ligne horizontale traversant 4 étapes, flèche gauche→droite,
+  point/numéro bleu accent posé sur la ligne.
+  Mobile/tablette : ligne verticale, étapes empilées, flèche vers le bas.
+  Style épuré (pas de card), animations via data-anim.
+  Fallback : tout reste visible si le JS ne charge pas (la ligne pleine est
+  visible par défaut ; le JS ne fait que la « tracer » par-dessus).
+  Animations : voir bloc // === PROCESS === dans Animation.jsx.
+*/
+
+const etapes = [
+  {
+    title: 'On échange',
+    text: 'Un appel pour faire connaissance, sans engagement.',
+  },
+  {
+    title: 'Je comprends votre activité',
+    text: 'Vos besoins, vos objectifs, vos clients.',
+  },
+  {
+    title: 'Je crée votre site',
+    text: 'Design et développement, entièrement sur mesure.',
+  },
+  {
+    title: 'Je mets en ligne',
+    text: 'Livraison, hébergement et suivi dans la durée.',
+  },
+];
+---
+
+<section id="process" aria-labelledby="process-title" class="bg-canvas">
+  <div class="container-mld py-22 sm:py-30">
+    <!-- En-tête -->
+    <div class="mx-auto max-w-2xl text-center">
+      <p
+        data-anim="process-eyebrow"
+        class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
+      >
+        Comment ça se passe ?
+      </p>
+      <h2
+        id="process-title"
+        data-anim="process-title"
+        class="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl"
+      >
+        Votre site en 4 étapes
+      </h2>
+    </div>
+
+    <!-- Timeline -->
+    <ol class="relative mt-20 grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
+      <!--
+        Rail (ligne de fond) — visible par défaut = fallback.
+        Vertical sur mobile/tablette, horizontal dès lg.
+      -->
+      <div
+        aria-hidden="true"
+        class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-accent/15 lg:left-0 lg:right-0 lg:top-[15px] lg:bottom-auto lg:h-0.5 lg:w-full"
+      >
+      </div>
+      <!-- Ligne « tracée » par GSAP (scaleX/scaleY de 0 → 1) — au-dessus du rail -->
+      <div
+        data-anim="process-line"
+        aria-hidden="true"
+        class="absolute left-[15px] top-2 bottom-2 w-0.5 origin-top bg-accent lg:left-0 lg:right-0 lg:top-[15px] lg:bottom-auto lg:h-0.5 lg:w-full lg:origin-left"
+      >
+      </div>
+      <!-- Flèche de progression -->
+      <div
+        data-anim="process-arrow"
+        aria-hidden="true"
+        class="absolute -bottom-1 left-[9px] text-accent lg:bottom-auto lg:left-auto lg:right-[-4px] lg:top-[7px]"
+      >
+        <!-- chevron bas (mobile) -->
+        <svg class="h-4 w-4 lg:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M4 6l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <!-- chevron droite (desktop) -->
+        <svg class="hidden h-4 w-4 lg:block" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M6 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      {
+        etapes.map((etape, i) => (
+          <li data-anim="process-step" class="relative pl-12 lg:pl-0 lg:pt-12">
+            {/* Point + numéro posé sur la ligne */}
+            <span class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent font-heading text-sm font-bold text-white shadow-md shadow-accent/30 lg:left-0">
+              {i + 1}
+            </span>
+            <h3 class="font-heading text-lg font-bold text-ink">{etape.title}</h3>
+            <p class="mt-2 font-sans text-base leading-relaxed text-ink/70">{etape.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- CTA discret -->
+    <div data-anim="process-cta" class="mt-20 text-center">
+      <a
+        href="#contact"
+        class="font-sans text-base font-semibold text-accent transition-colors hover:text-ink"
+      >
+        Démarrons votre projet →
+      </a>
+    </div>
+  </div>
+</section>

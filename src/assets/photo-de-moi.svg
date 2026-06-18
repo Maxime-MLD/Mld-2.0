@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1250" fill="none" role="img" aria-label="Emplacement pour une photo professionnelle">
+  <rect width="1000" height="1250" fill="#E4E7F2"/>
+  <!-- Silhouette sobre -->
+  <circle cx="500" cy="500" r="150" fill="#060918" opacity="0.18"/>
+  <path d="M260 1000c0-150 108-250 240-250s240 100 240 250v60H260v-60Z" fill="#060918" opacity="0.18"/>
+  <!-- Légende placeholder -->
+  <text x="500" y="1150" text-anchor="middle" font-family="Inter, sans-serif" font-size="34" font-weight="600" fill="#060918" opacity="0.4">[photo-de-moi.webp]</text>
+</svg>
