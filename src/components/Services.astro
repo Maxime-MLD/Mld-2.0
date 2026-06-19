@@ -53,11 +53,25 @@ const services = [
     frame: 'light',
   },
   {
-    label: 'Maintenance, hébergement & déploiement',
+    label: 'Maintenance & hébergement',
     title: 'Je m\'occupe de tout, de A à Z',
-    desc: 'Une fois le site livré, c\'est vous qui choisissez votre niveau d\'accompagnement :',
-    benefits: ['Autonomie : Je vous forme à modifier vos contenus (textes, photos) pour être 100 % indépendant.', 'Pack Sérénité : Déléguez-moi la technique ! Je gère l\'intégralité des modifications pour vous.', 'L\'hébergement et le déploiement est toujours fait pas mes soins.'],
+    desc: 'Une fois en ligne, je gère l\'hébergement, la sécurité et la technique. Pour vos contenus, vous choisissez votre niveau :',
     dashboard: true,
+    // Deux niveaux d'accompagnement après la mise en ligne.
+    options: [
+      {
+        name: 'Autonome',
+        text: 'Je vous forme à modifier votre site vous-même (CMS inclus).',
+        recommended: false,
+      },
+      {
+        name: 'Pack Sérénité',
+        text: 'Je réalise toutes vos modifications à votre place. Réponse sous 24 h.',
+        recommended: true,
+      },
+    ],
+    // Bénéfices techniques transversaux (présents dans les deux cas).
+    techBenefits: ['Site à jour & sécurisé', 'Hébergement géré', 'Toujours performant'],
     frame: 'dark',
   },
 ];
@@ -99,17 +113,30 @@ const services = [
           return (
             <div
               data-service-block
-              class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
+              class="grid grid-cols-1 items-center gap-y-8 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-4"
             >
+              {/* Texte haut : label + titre (1er bloc texte sur mobile) */}
+              <div
+                data-anim="service-text"
+                class={`${reverse ? 'lg:col-start-2' : 'lg:col-start-1'} lg:row-start-1`}
+              >
+                <p class="font-sans text-sm font-semibold uppercase tracking-widest text-accent">
+                  {service.label}
+                </p>
+                <h3 class="mt-4 font-heading text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
+                  {service.title}
+                </h3>
+              </div>
+
               {/* Image */}
               <div
                 data-anim="service-media"
-                class={`flex items-center justify-center rounded-[32px] p-8 shadow-[0_12px_32px_-8px_rgba(6,9,24,0.14)] sm:p-12 ${
+                class={`flex items-center justify-center overflow-hidden rounded-[32px] p-8 shadow-[0_12px_32px_-8px_rgba(6,9,24,0.14)] sm:p-12 ${
                   service.frame === 'dark' ? 'bg-ink' : 'bg-accent/10'
-                } ${reverse ? 'lg:order-2' : 'lg:order-1'}`}
+                } ${reverse ? 'lg:col-start-1' : 'lg:col-start-2'} lg:row-start-1 lg:row-span-2`}
               >
                 {service.fan ? (
-                  <div data-fan class="relative mx-auto aspect-[4/3] w-full max-w-[300px] sm:max-w-[360px]">
+                  <div data-fan class="relative aspect-square w-full sm:aspect-[16/10]">
                     {service.fan.map((page, fi) => (
                       <Image
                         src={page.src}
@@ -117,7 +144,7 @@ const services = [
                         width={1200}
                         height={900}
                         data-fan-card
-                        class={`absolute inset-0 h-full w-full rounded-xl object-cover object-top shadow-xl shadow-ink/30 ring-1 ring-white/10 ${
+                        class={`absolute inset-0 h-full w-full rounded-xl object-contain shadow-xl shadow-ink/30 ring-1 ring-white/10 ${
                           fi === 0
                             ? 'z-10 -translate-x-[8%] -rotate-3 sm:-translate-x-[15%] sm:-rotate-6'
                             : fi === 1
@@ -128,7 +155,7 @@ const services = [
                     ))}
                   </div>
                 ) : service.dashboard ? (
-                  <div class="w-full sm:aspect-[16/10]">
+                  <div class="aspect-square w-full sm:aspect-[16/10]">
                     <div class="flex h-full w-full flex-col rounded-2xl bg-white p-4 shadow-xl shadow-ink/20 sm:p-5">
                       {/* En-tête : nom du site + statut en ligne */}
                       <div class="flex items-center justify-between gap-3 border-b border-ink/10 pb-2.5">
@@ -225,7 +252,7 @@ const services = [
                     <div
                       data-ba-slider
                       style="--p:50"
-                      class="relative aspect-[16/10] w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-xl shadow-md shadow-ink/10 ring-1 ring-ink/5"
+                      class="relative aspect-square w-full cursor-ew-resize touch-none select-none overflow-hidden rounded-xl shadow-md shadow-ink/10 ring-1 ring-ink/5 sm:aspect-[16/10]"
                     >
                       {/* APRÈS — image de base (à droite) */}
                       <Image
@@ -241,17 +268,27 @@ const services = [
                         style="clip-path: inset(0 calc((100 - var(--p)) * 1%) 0 0)"
                       />
 
-                      {/* Labels */}
-                      <span class="pointer-events-none absolute left-3 top-3 rounded-full bg-ink/75 px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
-                        Avant
-                      </span>
-                      <span class="pointer-events-none absolute right-3 top-3 rounded-full bg-accent px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
-                        Après
-                      </span>
+                      {/* Labels — chacun confiné à sa moitié via le même clip que son image */}
+                      <div
+                        class="pointer-events-none absolute inset-0"
+                        style="clip-path: inset(0 calc((100 - var(--p)) * 1%) 0 0)"
+                      >
+                        <span class="absolute left-3 top-3 rounded-full bg-ink/75 px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+                          Avant
+                        </span>
+                      </div>
+                      <div
+                        class="pointer-events-none absolute inset-0"
+                        style="clip-path: inset(0 0 0 calc(var(--p) * 1%))"
+                      >
+                        <span class="absolute right-3 top-3 rounded-full bg-accent px-2.5 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-white">
+                          Après
+                        </span>
+                      </div>
 
                       {/* Ligne + poignée */}
                       <div
-                        class="pointer-events-none absolute inset-y-0 z-10 w-0.5 -translate-x-1/2 bg-white/90"
+                        class="pointer-events-none absolute inset-y-0 z-10 w-0.5 -translate-x-1/2 bg-ink"
                         style="left: calc(var(--p) * 1%)"
                       >
                       </div>
@@ -273,46 +310,82 @@ const services = [
                     </div>
                   </div>
                 ) : service.image ? (
-                  <Image
-                    src={service.image}
-                    alt={service.alt ?? ''}
-                    width={1200}
-                    height={900}
-                    class="w-full rounded-xl"
-                  />
+                  <div class="aspect-square w-full overflow-hidden rounded-xl sm:aspect-[16/10]">
+                    <Image
+                      src={service.image}
+                      alt={service.alt ?? ''}
+                      width={1200}
+                      height={900}
+                      class="h-full w-full object-contain"
+                    />
+                  </div>
                 ) : null}
               </div>
 
-              {/* Texte */}
+              {/* Texte bas : description + bénéfices (ou options pour la maintenance) */}
               <div
                 data-anim="service-text"
-                class={`${reverse ? 'lg:order-1' : 'lg:order-2'}`}
+                class={`${reverse ? 'lg:col-start-2' : 'lg:col-start-1'} lg:row-start-2`}
               >
-                <p class="font-sans text-sm font-semibold uppercase tracking-widest text-accent">
-                  {service.label}
-                </p>
-                <h3 class="mt-4 font-heading text-2xl font-bold leading-tight tracking-tight text-ink sm:text-3xl">
-                  {service.title}
-                </h3>
-                <p class="mt-4 font-sans text-base leading-relaxed text-ink/70">
+                <p class="font-sans text-base leading-relaxed text-ink/70">
                   {service.desc}
                 </p>
-                <ul class="mt-8 space-y-4">
-                  {service.benefits.map((benefit) => (
-                    <li class="flex items-center gap-3 font-sans text-base text-ink/80">
-                      <span class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
-                        <svg class="h-4 w-4 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path
-                            fill-rule="evenodd"
-                            d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.1 6.8-6.8a1 1 0 0 1 1.4 0Z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
+
+                {service.options ? (
+                  <>
+                    {/* Deux niveaux d'accompagnement */}
+                    <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {service.options.map((opt) => (
+                        <div
+                          class={`relative rounded-xl border p-4 ${
+                            opt.recommended ? 'border-accent bg-accent/5' : 'border-ink/10'
+                          }`}
+                        >
+                          {opt.recommended && (
+                            <span class="absolute -top-2.5 right-3 rounded-full bg-accent px-2 py-0.5 font-sans text-[10px] font-bold uppercase tracking-wide text-white">
+                              Recommandé
+                            </span>
+                          )}
+                          <p class={`font-heading text-sm font-bold ${opt.recommended ? 'text-accent' : 'text-ink'}`}>
+                            {opt.name}
+                          </p>
+                          <p class="mt-1 font-sans text-sm leading-relaxed text-ink/70">
+                            {opt.text}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bénéfices techniques transversaux */}
+                    <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+                      {service.techBenefits?.map((b) => (
+                        <li class="flex items-center gap-2 font-sans text-sm text-ink/70">
+                          <svg class="h-4 w-4 flex-shrink-0 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.1 6.8-6.8a1 1 0 0 1 1.4 0Z" clip-rule="evenodd" />
+                          </svg>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <ul class="mt-8 space-y-4">
+                    {service.benefits?.map((benefit) => (
+                      <li class="flex items-center gap-3 font-sans text-base text-ink/80">
+                        <span class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-accent/10">
+                          <svg class="h-4 w-4 text-accent" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path
+                              fill-rule="evenodd"
+                              d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.1 3.1 6.8-6.8a1 1 0 0 1 1.4 0Z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           );

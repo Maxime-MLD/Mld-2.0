@@ -44,9 +44,9 @@ import mockup from '../assets/hero_macbook.png';
   </div>
 
   <div class="container-mld py-16 sm:py-20">
-    <div class="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-12">
-      <!-- Colonne texte -->
-      <div class="text-center lg:text-left">
+    <div class="grid grid-cols-1 items-center gap-y-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-6">
+      <!-- Texte haut : eyebrow + titre + sous-titre -->
+      <div class="text-center lg:col-start-1 lg:row-start-1 lg:text-left">
         <p
           data-anim="hero-eyebrow"
           class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
@@ -67,24 +67,28 @@ import mockup from '../assets/hero_macbook.png';
         >
           Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire la visibilité qu'elles méritent.
         </p>
-
-        <div
-          data-anim="hero-cta"
-          class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start"
-        >
-          <a href="#contact" class="btn-primary">Me contacter</a>
-          <a href="#realisations" class="btn-ghost">Voir mes réalisations</a>
-        </div>
       </div>
 
-      <!-- Colonne visuel : mockup MacBook (image réelle) -->
-      <div data-anim="hero-visual" class="relative mx-auto w-full max-w-xl lg:max-w-none">
+      <!-- Visuel : mockup MacBook — entre le sous-titre et le CTA sur mobile/tablette -->
+      <div
+        data-anim="hero-visual"
+        class="relative mx-auto w-full max-w-xl lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-w-none"
+      >
         <Image
           src={mockup}
           alt="Site vitrine créé par MLD affiché sur un MacBook"
           loading="eager"
           class="macbook-shadow mx-auto block h-auto w-full max-w-[680px] lg:max-w-none lg:w-[122%]"
         />
+      </div>
+
+      <!-- CTA : après l'image sur mobile/tablette -->
+      <div
+        data-anim="hero-cta"
+        class="flex flex-col items-center justify-center gap-4 sm:flex-row lg:col-start-1 lg:row-start-2 lg:justify-start"
+      >
+        <a href="#contact" class="btn-primary">Me contacter</a>
+        <a href="#realisations" class="btn-ghost">Voir mes réalisations</a>
       </div>
     </div>
   </div>

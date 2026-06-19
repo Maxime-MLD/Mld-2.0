@@ -138,9 +138,9 @@ export default function Animation() {
       // Blocs alternés : image + texte révélés ensemble quand le bloc entre dans le viewport.
       gsap.utils.toArray('[data-service-block]').forEach((block) => {
         const media = block.querySelector('[data-anim="service-media"]');
-        const text = block.querySelector('[data-anim="service-text"]');
+        const texts = block.querySelectorAll('[data-anim="service-text"]');
         gsap.fromTo(
-          [media, text].filter(Boolean),
+          [media, ...texts].filter(Boolean),
           { opacity: 0, y: 32 },
           {
             opacity: 1,
