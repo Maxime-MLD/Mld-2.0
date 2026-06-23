@@ -25,7 +25,19 @@ const stats = [
 ];
 ---
 
-<section aria-labelledby="stats-title" class="bg-ink text-canvas">
+<section aria-labelledby="stats-title" class="relative isolate overflow-hidden bg-ink text-canvas">
+  <!-- Halos d'accent décoratifs — angle haut-gauche et bas-droit, moitié visible -->
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute left-0 top-0 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/4 rounded-full bg-accent/20 blur-3xl"
+  >
+  </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute bottom-0 right-0 -z-10 h-[420px] w-[420px] translate-x-1/2 translate-y-1/4 rounded-full bg-accent/20 blur-3xl"
+  >
+  </div>
+
   <div class="container-mld py-22 sm:py-30">
     <div class="mx-auto max-w-2xl text-center">
       <p
@@ -45,9 +57,7 @@ const stats = [
         data-anim="stats-subtitle"
         class="mx-auto mt-6 max-w-xl font-sans text-lg leading-relaxed text-canvas/70"
       >
-        Aujourd'hui, vos futurs clients vous cherchent d'abord sur internet. S'ils
-        ne vous trouvent pas — ou tombent sur un site dépassé — ils passent chez la
-        concurrence.
+        Vos clients vous cherchent en ligne. Sans site — ou avec un site dépassé — ils vont chez la concurrence.
       </p>
     </div>
 

@@ -45,7 +45,7 @@ const services = [
     label: 'Refonte de site',
     title: 'Donnez un coup de neuf à votre image',
     desc: 'Je modernise votre site vieillissant pour qu\'il inspire à nouveau confiance et travaille vraiment pour vous.',
-    benefits: ['Nouveau design actuel', 'Meilleures performances', 'Meilleur référencement'],
+    benefits: ['Nouveau design', 'Meilleures performances', 'Meilleur référencement'],
     beforeAfter: {
       avant: { src: refonteAvant, alt: 'Site d\'une menuiserie avant refonte' },
       apres: { src: refonteApres, alt: 'Le même site de menuiserie après refonte par MLD' },
@@ -55,23 +55,9 @@ const services = [
   {
     label: 'Maintenance & hébergement',
     title: 'Je m\'occupe de tout, de A à Z',
-    desc: 'Une fois en ligne, je gère l\'hébergement, la sécurité et la technique. Pour vos contenus, vous choisissez votre niveau :',
+    desc: 'Une fois en ligne, je gère l\'hébergement, la sécurité et la technique. Vous n\'avez plus à y penser.',
+    benefits: ['Site à jour & sécurisé', 'Hébergement géré', 'Toujours performant'],
     dashboard: true,
-    // Deux niveaux d'accompagnement après la mise en ligne.
-    options: [
-      {
-        name: 'Autonome',
-        text: 'Je vous forme à modifier votre site vous-même (CMS inclus).',
-        recommended: false,
-      },
-      {
-        name: 'Pack Sérénité',
-        text: 'Je réalise toutes vos modifications à votre place. Réponse sous 24 h.',
-        recommended: true,
-      },
-    ],
-    // Bénéfices techniques transversaux (présents dans les deux cas).
-    techBenefits: ['Site à jour & sécurisé', 'Hébergement géré', 'Toujours performant'],
     frame: 'dark',
   },
 ];
@@ -144,7 +130,7 @@ const services = [
                         width={1200}
                         height={900}
                         data-fan-card
-                        class={`absolute inset-0 h-full w-full rounded-xl object-contain shadow-xl shadow-ink/30 ring-1 ring-white/10 ${
+                        class={`absolute inset-0 h-full w-full rounded-xl object-contain lg:shadow-xl lg:shadow-ink/30 lg:ring-1 lg:ring-white/10 ${
                           fi === 0
                             ? 'z-10 hidden lg:block lg:-translate-x-[15%] lg:-rotate-6'
                             : fi === 1
@@ -396,8 +382,14 @@ const services = [
     <!-- Argument transversal + CTA -->
     <div
       data-anim="services-cta"
-      class="mt-24 flex flex-col items-center justify-between gap-6 rounded-2xl bg-ink px-8 py-10 text-center sm:flex-row sm:text-left"
+      class="relative isolate mt-24 flex flex-col items-center justify-between gap-6 overflow-hidden rounded-2xl bg-ink px-8 py-10 text-center sm:flex-row sm:text-left"
     >
+      <!-- Halo d'accent décoratif — derrière le bouton « Demander un devis » -->
+      <div
+        aria-hidden="true"
+        class="pointer-events-none absolute bottom-0 right-0 -z-10 h-[280px] w-[280px] translate-x-1/5 translate-y-1/4 rounded-full bg-accent/50 blur-3xl sm:bottom-1/2 sm:translate-y-1/2"
+      >
+      </div>
       <p class="max-w-xl font-heading text-xl font-bold text-canvas">
         Un seul interlocuteur, du premier échange à la mise en ligne.
         <span class="text-accent"> Tarif sur devis, sans engagement.</span>

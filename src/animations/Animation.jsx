@@ -79,6 +79,26 @@ export default function Animation() {
         gsap.to(heroDots, { y: 26, duration: 9, ease: 'none', repeat: -1 });
       }
 
+      // God rays : lumière « vivante » — très lente, discrète (intensité +
+      // léger glissement des faisceaux). Désactivé si reduce-motion.
+      const heroRays = document.querySelector('#hero-rays');
+      if (heroRays) {
+        gsap.to(heroRays, {
+          opacity: 0.6,
+          duration: 6,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+        gsap.to(heroRays, {
+          backgroundPositionX: '+=46px',
+          duration: 16,
+          ease: 'sine.inOut',
+          repeat: -1,
+          yoyo: true,
+        });
+      }
+
       // === CHIFFRES-CLÉS (trust bar) ===
       // Apparition des indicateurs + effet compteur (numérique et alphabétique).
       const keyfacts = document.querySelector('[data-keyfacts]');
@@ -178,29 +198,7 @@ export default function Animation() {
       scrollReveal('[data-anim="process-eyebrow"]');
       scrollReveal('[data-anim="process-title"]');
 
-      // Déclencheur commun à la timeline.
-      const processTrigger = { trigger: '[data-anim="process-step"]', start: 'top 80%' };
-
-      // La ligne se trace progressivement, puis la flèche apparaît au bout.
-      // Le double scale (X + Y depuis 0) fonctionne pour les deux orientations
-      // (horizontale dès lg, verticale en dessous) sans dépendre du breakpoint.
-      // Fallback : la ligne est masquée par js-anim puis révélée ici ; le rail
-      // de fond, lui, reste visible même sans JS.
-      gsap
-        .timeline({ scrollTrigger: processTrigger })
-        .fromTo(
-          '[data-anim="process-line"]',
-          { opacity: 1, scaleX: 0, scaleY: 0 },
-          { scaleX: 1, scaleY: 1, duration: 1.1, ease: 'power2.out' }
-        )
-        .fromTo(
-          '[data-anim="process-arrow"]',
-          { opacity: 0 },
-          { opacity: 1, duration: 0.4 },
-          '-=0.1'
-        );
-
-      // Les étapes apparaissent une par une (gauche→droite sur desktop).
+      // Les 4 cartes apparaissent en fondu + léger slide, l'une après l'autre.
       gsap.fromTo(
         '[data-anim="process-step"]',
         { opacity: 0, y: 24 },
@@ -209,8 +207,8 @@ export default function Animation() {
           y: 0,
           duration: 0.7,
           ease: 'power2.out',
-          stagger: 0.18,
-          scrollTrigger: processTrigger,
+          stagger: 0.12,
+          scrollTrigger: { trigger: '[data-anim="process-step"]', start: 'top 85%' },
         }
       );
 

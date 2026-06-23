@@ -62,56 +62,34 @@ const creations = [
         data-anim="real-subtitle"
         class="mt-6 font-sans text-lg leading-relaxed text-ink/70"
       >
-        Voici des exemples de sites que je conçois pour différents métiers&nbsp;:
-        des démonstrations pour vous montrer concrètement mon savoir-faire.
+        Des sites sur-mesure, pensés pour différents métiers.
       </p>
     </div>
 
-    <!-- Grille de créations -->
-    <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2">
+    <!-- Galerie épurée façon Apple — images seules -->
+    <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10">
       {
         creations.map((item) => (
-          <article
+          <div
             data-anim="real-card"
-            class="group flex flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white/60 shadow-[0_12px_32px_-8px_rgba(6,9,24,0.14)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_44px_-10px_rgba(6,9,24,0.20)]"
+            class="group aspect-[16/10] overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-12px_rgba(6,9,24,0.18)] ring-1 ring-ink/5 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_28px_56px_-12px_rgba(6,9,24,0.26)]"
           >
-            {/* Visuel — ratio uniforme, image entière (object-contain), zoom hover discret */}
-            <div class="aspect-[16/10] overflow-hidden border-b border-ink/10 bg-canvas">
-              <Image
-                src={item.image}
-                alt={item.alt}
-                class="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-              />
-            </div>
-
-            <div class="flex flex-1 flex-col p-6">
-              <h3 class="font-heading text-lg font-bold text-ink">{item.name}</h3>
-              <p class="mt-1 font-sans text-sm text-ink/60">{item.type}</p>
-
-              {/* Tag commercial uniforme : site disponible à l'achat */}
-              <div class="mt-4">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-2.5 py-1 font-sans text-xs font-semibold text-accent">
-                  Site disponible
-                  <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" aria-hidden="true">
-                    <path d="m5 12 5 5L20 7" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </span>
-              </div>
-
-              {/* Invitation à me contacter (le site est achetable / adaptable) */}
-              <p class="mt-auto pt-6 font-sans text-sm leading-relaxed text-ink/70">
-                Ce site vous intéresse pour votre entreprise&nbsp;?{' '}
-                <a
-                  href="#contact"
-                  class="font-semibold text-accent underline-offset-4 hover:underline"
-                >
-                  Écrivez-moi.
-                </a>
-              </p>
-            </div>
-          </article>
+            <Image
+              src={item.image}
+              alt={item.alt}
+              class="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+          </div>
         ))
       }
+    </div>
+
+    <!-- CTA unique en bas de section -->
+    <div class="mt-16 text-center sm:mt-20">
+      <p class="mx-auto max-w-xl font-heading text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+        Et si le prochain, c'était le vôtre&nbsp;?
+      </p>
+      <a href="#contact" class="btn-primary mt-8">Me contacter</a>
     </div>
   </div>
 </section>

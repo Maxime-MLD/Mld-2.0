@@ -9,39 +9,13 @@
 */
 import { Image } from 'astro:assets';
 // Mockup MacBook avec la capture du site déjà intégrée (image réelle).
-import mockup from '../assets/hero_macbook.png';
+import mockup from '../assets/hero_zoom.png';
 ---
 
 <section
   id="hero"
-  class="relative flex items-center overflow-hidden w-full min-h-screen bg-gradient-to-b from-[#D9DEFF] from-0% to-[#EBEEFF] to-70%"
+  class="relative flex items-center overflow-hidden w-full min-h-screen bg-gradient-to-b from-[#D9DEFF] from-0% to-[#EBEEFF] to-70% "
 >
-  <!--
-    Fond décoratif — trame de points (CSS pur, aucune image) :
-    - #hero-dots : grille de points bleu accent en faible opacité, plus denses
-      vers le centre/droite (mask radial), animée par GSAP (dérive lente + légère
-      pulsation). Pas de data-anim → reste VISIBLE même sans JS (fallback propre).
-    - voile clair sous le texte (gauche) pour garantir la lisibilité.
-    Tout est pointer-events-none + -z-10 : jamais devant le contenu ni cliquable.
-  -->
-  <div
-    id="hero-dots"
-    aria-hidden="true"
-    class="pointer-events-none absolute -inset-6 -z-10 will-change-transform"
-    style="
-      background-image: radial-gradient(rgba(59,91,255,0.22) 1.5px, transparent 1.7px);
-      background-size: 26px 26px;
-      -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 85%);
-      mask-image: linear-gradient(to bottom, #000 0%, #000 35%, transparent 85%);
-    "
-  >
-  </div>
-  <div
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 -z-10"
-    style="background: radial-gradient(55% 65% at 22% 45%, rgba(235,238,255,0.85), rgba(235,238,255,0) 70%);"
-  >
-  </div>
 
   <div class="container-mld py-16 sm:py-20">
     <div class="grid grid-cols-1 items-center gap-y-8 lg:grid-cols-2 lg:gap-x-12 lg:gap-y-6">
@@ -51,21 +25,21 @@ import mockup from '../assets/hero_macbook.png';
           data-anim="hero-eyebrow"
           class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
         >
-          Agence web à Roanne &amp; dans la Loire
+          Plus de visibilité. Plus de clients
         </p>
 
         <h1
           data-anim="hero-title"
           class="mt-6 font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-6xl"
         >
-          Plus de visibilité. Plus de clients
+          Agence web à Roanne dans la création de site internet
         </h1>
 
         <p
           data-anim="hero-subtitle"
           class="mx-auto mt-6 max-w-xl font-sans text-lg leading-relaxed text-ink/70 lg:mx-0"
         >
-          Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire la visibilité qu'elles méritent.
+          Je crée des sites vitrine modernes qui donnent aux entreprises de Roanne & de la Loire (42) la visibilité qu'elles méritent.
         </p>
       </div>
 
@@ -112,6 +86,43 @@ import mockup from '../assets/hero_macbook.png';
       filter:
         drop-shadow(0 6px 12px rgba(6, 9, 24, 0.14))
         drop-shadow(0 20px 36px rgba(6, 9, 24, 0.16));
+    }
+  }
+
+  /*
+    God rays — quelques faisceaux parallèles (repeating-linear-gradient) en
+    diagonale, fortement floutés, faible opacité, fondus en soft-light.
+    Le masque radial les confine au coin haut-droit (~3-5 faisceaux visibles).
+  */
+  .hero-rays {
+    background: repeating-linear-gradient(
+      112deg,
+      transparent 0,
+      transparent 70px,
+      rgba(255, 255, 255, 0.85) 88px,
+      rgba(168, 185, 255, 0.55) 94px,
+      transparent 116px
+    );
+    filter: blur(12px);
+    opacity: 0.8;
+    -webkit-mask-image: radial-gradient(
+      135% 115% at 100% -10%,
+      #000 0%,
+      rgba(0, 0, 0, 0.55) 40%,
+      transparent 75%
+    );
+    mask-image: radial-gradient(
+      135% 115% at 100% -10%,
+      #000 0%,
+      rgba(0, 0, 0, 0.55) 40%,
+      transparent 75%
+    );
+  }
+
+  @media (max-width: 640px) {
+    .hero-rays {
+      opacity: 0.6;
+      filter: blur(10px);
     }
   }
 </style>

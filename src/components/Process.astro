@@ -1,31 +1,33 @@
 ---
 /*
-  Process — « Comment je travaille » en timeline.
-  Desktop : ligne horizontale traversant 4 étapes, flèche gauche→droite,
-  point/numéro bleu accent posé sur la ligne.
-  Mobile/tablette : ligne verticale, étapes empilées, flèche vers le bas.
-  Style épuré (pas de card), animations via data-anim.
-  Fallback : tout reste visible si le JS ne charge pas (la ligne pleine est
-  visible par défaut ; le JS ne fait que la « tracer » par-dessus).
+  Process — « Comment je travaille » en 4 cartes alignées.
+  Desktop : 4 cartes sur une ligne. Tablette : 2×2. Mobile : empilées.
+  Chaque carte : fond dégradé foncé (#060918), grande icône en filigrane dans
+  un coin, numéro accent, titre + phrase courte clairs.
+  Animations via data-anim (apparition en stagger). Fallback : visible sans JS.
   Animations : voir bloc // === PROCESS === dans Animation.jsx.
 */
 
 const etapes = [
   {
     title: 'On échange',
-    text: 'Un appel pour faire connaissance, sans engagement.',
+    text: 'Un appel pour comprendre votre activité, vos objectifs et vos clients.',
+    icon: 'chat',
   },
   {
-    title: 'Je comprends votre activité',
-    text: 'Vos besoins, vos objectifs, vos clients.',
+    title: 'Je conçois la maquette',
+    text: 'Un design sur-mesure, et je vous guide jusqu\'à ce que ça vous ressemble.',
+    icon: 'design',
   },
   {
     title: 'Je crée votre site',
-    text: 'Design et développement, entièrement sur mesure.',
+    text: 'Développement sur-mesure, rapide et optimisé pour le référencement (SEO).',
+    icon: 'code',
   },
   {
     title: 'Je mets en ligne',
     text: 'Livraison, hébergement et suivi dans la durée.',
+    icon: 'rocket',
   },
 ];
 ---
@@ -38,7 +40,7 @@ const etapes = [
         data-anim="process-eyebrow"
         class="font-sans text-sm font-semibold uppercase tracking-widest text-accent"
       >
-        Comment ça se passe ?
+        Comment ça se passe&nbsp;?
       </p>
       <h2
         id="process-title"
@@ -49,62 +51,76 @@ const etapes = [
       </h2>
     </div>
 
-    <!-- Timeline -->
-    <ol class="relative mt-20 grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
-      <!--
-        Rail (ligne de fond) — visible par défaut = fallback.
-        Vertical sur mobile/tablette, horizontal dès lg.
-      -->
-      <div
-        aria-hidden="true"
-        class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-accent/15 lg:left-0 lg:right-0 lg:top-[15px] lg:bottom-auto lg:h-0.5 lg:w-full"
-      >
-      </div>
-      <!-- Ligne « tracée » par GSAP (scaleX/scaleY de 0 → 1) — au-dessus du rail -->
-      <div
-        data-anim="process-line"
-        aria-hidden="true"
-        class="absolute left-[15px] top-2 bottom-2 w-0.5 origin-top bg-accent lg:left-0 lg:right-0 lg:top-[15px] lg:bottom-auto lg:h-0.5 lg:w-full lg:origin-left"
-      >
-      </div>
-      <!-- Flèche de progression -->
-      <div
-        data-anim="process-arrow"
-        aria-hidden="true"
-        class="absolute -bottom-1 left-[9px] text-accent lg:bottom-auto lg:left-auto lg:right-[-4px] lg:top-[7px]"
-      >
-        <!-- chevron bas (mobile) -->
-        <svg class="h-4 w-4 lg:hidden" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M4 6l4 4 4-4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-        <!-- chevron droite (desktop) -->
-        <svg class="hidden h-4 w-4 lg:block" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5">
-          <path d="M6 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </div>
-
+    <!-- Cartes -->
+    <div class="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {
         etapes.map((etape, i) => (
-          <li data-anim="process-step" class="relative pl-12 lg:pl-0 lg:pt-12">
-            {/* Point + numéro posé sur la ligne */}
-            <span class="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent font-heading text-sm font-bold text-white shadow-md shadow-accent/30 lg:left-0">
-              {i + 1}
+          <article
+            data-anim="process-step"
+            class="relative flex flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-[#0c1330] via-[#070b1c] to-[#02030a] p-8 shadow-[0_18px_40px_-12px_rgba(6,9,24,0.35)] ring-1 ring-white/5"
+          >
+            {/* Icône — badge net dans l'angle supérieur droit */}
+            <span
+              aria-hidden="true"
+              class="absolute right-6 top-6 flex h-11 w-11 items-center justify-center rounded-xl bg-accent/15 text-accent ring-1 ring-accent/25"
+            >
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                {etape.icon === 'chat' && (
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                )}
+                {etape.icon === 'design' && (
+                  <>
+                    <path d="m12 19 7-7 3 3-7 7-3-3z" />
+                    <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+                    <path d="m2 2 7.586 7.586" />
+                    <circle cx="11" cy="11" r="2" />
+                  </>
+                )}
+                {etape.icon === 'code' && (
+                  <>
+                    <path d="m16 18 6-6-6-6" />
+                    <path d="m8 6-6 6 6 6" />
+                  </>
+                )}
+                {etape.icon === 'rocket' && (
+                  <>
+                    <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+                    <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+                    <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+                    <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
+                  </>
+                )}
+              </svg>
             </span>
-            <h3 class="font-heading text-lg font-bold text-ink">{etape.title}</h3>
-            <p class="mt-2 font-sans text-base leading-relaxed text-ink/70">{etape.text}</p>
-          </li>
+
+            {/* Contenu */}
+            <div class="relative">
+              <span class="font-heading text-5xl font-extrabold leading-none text-accent">
+                {i + 1}
+              </span>
+              <h3 class="mt-5 font-heading text-lg font-bold text-canvas">{etape.title}</h3>
+              <p class="mt-2 font-sans text-sm leading-relaxed text-canvas/70">{etape.text}</p>
+            </div>
+          </article>
         ))
       }
-    </ol>
+    </div>
 
-    <!-- CTA discret -->
-    <div data-anim="process-cta" class="mt-20 text-center">
-      <a
-        href="#contact"
-        class="font-sans text-base font-semibold text-accent transition-colors hover:text-ink"
-      >
-        Démarrons votre projet →
-      </a>
+    <!-- CTA -->
+    <div
+      data-anim="process-cta"
+      class="mt-16 flex flex-col items-center justify-center gap-4 sm:flex-row"
+    >
+      <a href="#contact" class="btn-primary">Démarrez votre projet</a>
+      <a href="#realisations" class="btn-ghost">Découvrez nos réalisations</a>
     </div>
   </div>
 </section>
