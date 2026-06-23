@@ -1,13 +1,13 @@
 ---
 /*
-  Realisations — « Mes créations » : exemples de sites de démonstration créés
-  par MLD pour illustrer le savoir-faire (PAS des projets clients livrés).
-  Grille 2 cards/ligne (desktop) → 1/ligne (mobile). Images non rognées
-  (object-contain) dans un ratio uniforme pour une grille régulière.
-  Bouton « Voir le site » volontairement inactif (« Bientôt en ligne »).
+  Realisations — galerie épurée façon Apple (images seules), avec lightbox.
+  Au clic sur une image : ouverture agrandie (fenêtre superposée, pas plein
+  écran) sur fond assombri. Fermeture : croix, clic sur le fond, touche Échap.
+  Version haute résolution servie via getImage (WebP) dans la lightbox.
+  Fallback : sans JS, les images restent (boutons inertes), page non cassée.
   Animations : voir bloc // === RÉALISATIONS === dans Animation.jsx.
 */
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import demoDentiste from '../assets/service_dentiste.png';
 import demoMacon from '../assets/service_macon.png';
 import demoMenuiserie from '../assets/hero_2026.png';
@@ -39,6 +39,14 @@ const creations = [
     type: 'Site vitrine mono-page avec formulaire de contact',
   },
 ];
+
+// Version haute résolution optimisée (WebP) pour la lightbox.
+const gallery = await Promise.all(
+  creations.map(async (item) => ({
+    ...item,
+    full: (await getImage({ src: item.image, width: 1600, format: 'webp' })).src,
+  }))
+);
 ---
 
 <section id="realisations" aria-labelledby="realisations-title" class="bg-canvas">
@@ -66,20 +74,25 @@ const creations = [
       </p>
     </div>
 
-    <!-- Galerie épurée façon Apple — images seules -->
+    <!-- Galerie cliquable -->
     <div class="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10">
       {
-        creations.map((item) => (
-          <div
+        gallery.map((item) => (
+          <button
+            type="button"
             data-anim="real-card"
-            class="group aspect-[16/10] overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-12px_rgba(6,9,24,0.18)] ring-1 ring-ink/5 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_28px_56px_-12px_rgba(6,9,24,0.26)]"
+            data-lightbox-trigger
+            data-full={item.full}
+            data-alt={item.alt}
+            aria-label={`Agrandir : ${item.name}`}
+            class="group block aspect-[16/10] cursor-zoom-in overflow-hidden rounded-3xl bg-white shadow-[0_18px_40px_-12px_rgba(6,9,24,0.18)] ring-1 ring-ink/5 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-[0_28px_56px_-12px_rgba(6,9,24,0.26)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <Image
               src={item.image}
               alt={item.alt}
               class="h-full w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
             />
-          </div>
+          </button>
         ))
       }
     </div>
@@ -92,4 +105,98 @@ const creations = [
       <a href="#contact" class="btn-primary mt-8">Me contacter</a>
     </div>
   </div>
+
+  <!-- Lightbox (superposée, masquée par défaut) -->
+  <div
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Image agrandie"
+    class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-8"
+  >
+    <!-- Fond assombri (clic = fermeture) -->
+    <div
+      data-lightbox-overlay
+      class="absolute inset-0 bg-ink/80 opacity-0 backdrop-blur-sm transition-opacity duration-300 ease-out"
+    >
+    </div>
+
+    <!-- Fenêtre image -->
+    <div
+      data-lightbox-panel
+      class="relative scale-95 opacity-0 transition-all duration-300 ease-out"
+    >
+      <img
+        id="lightbox-img"
+        alt=""
+        class="block h-auto max-h-[88vh] w-auto max-w-[88vw] rounded-2xl shadow-2xl"
+      />
+      <button
+        type="button"
+        data-lightbox-close
+        aria-label="Fermer"
+        class="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-ink/60 text-white ring-1 ring-white/20 backdrop-blur transition-colors hover:bg-ink/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
 </section>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement | null;
+  const overlay = lightbox?.querySelector<HTMLElement>('[data-lightbox-overlay]');
+  const panel = lightbox?.querySelector<HTMLElement>('[data-lightbox-panel]');
+  const closeBtn = lightbox?.querySelector<HTMLElement>('[data-lightbox-close]');
+  const triggers = document.querySelectorAll<HTMLElement>('[data-lightbox-trigger]');
+  let lastFocused: HTMLElement | null = null;
+
+  const openLightbox = (full?: string, alt?: string) => {
+    if (!lightbox || !lbImg || !full) return;
+    lastFocused = document.activeElement as HTMLElement | null;
+    lbImg.src = full;
+    lbImg.alt = alt ?? '';
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+    // Fondu + léger zoom (après un frame pour déclencher la transition).
+    requestAnimationFrame(() => {
+      overlay?.classList.add('opacity-100');
+      panel?.classList.remove('opacity-0', 'scale-95');
+      panel?.classList.add('opacity-100', 'scale-100');
+    });
+    closeBtn?.focus();
+  };
+
+  const closeLightbox = () => {
+    if (!lightbox || !panel) return;
+    overlay?.classList.remove('opacity-100');
+    panel.classList.remove('opacity-100', 'scale-100');
+    panel.classList.add('opacity-0', 'scale-95');
+    panel.addEventListener(
+      'transitionend',
+      () => {
+        lightbox.classList.add('hidden');
+        lightbox.classList.remove('flex');
+        document.body.style.overflow = '';
+        if (lbImg) lbImg.src = '';
+      },
+      { once: true }
+    );
+    lastFocused?.focus?.();
+  };
+
+  triggers.forEach((t) =>
+    t.addEventListener('click', () => openLightbox(t.dataset.full, t.dataset.alt))
+  );
+  overlay?.addEventListener('click', closeLightbox);
+  closeBtn?.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && !lightbox.classList.contains('hidden')) {
+      closeLightbox();
+    }
+  });
+</script>
